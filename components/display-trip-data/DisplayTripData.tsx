@@ -54,12 +54,12 @@ const DisplayTripData: React.FC = () => {
           variant="outline"
           mb={4}
         >
-          <Image
+          {/* <Image
             objectFit="cover"
             maxW={{ base: "100%", sm: "200px" }}
             src={trip.imageUrl || "https://via.placeholder.com/150"}
             alt="Trip Destination"
-          />
+          /> */}
           <Stack>
             <CardBody>
               <Heading size="md">{trip.tripName}</Heading>
