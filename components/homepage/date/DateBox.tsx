@@ -51,11 +51,13 @@ export function DateBox({
   onEditActivity,
   onDeleteActivity,
 }: DateBoxProps) {
-  const [newActivity, setNewActivity] = useState<Omit<Activity, "id" | "date">>({
-    startTime: "",
-    endTime: "",
-    description: "",
-  });
+  const [newActivity, setNewActivity] = useState<Omit<Activity, "id" | "date">>(
+    {
+      startTime: "",
+      endTime: "",
+      description: "",
+    }
+  );
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +108,7 @@ export function DateBox({
       onClick={onDateClick}
       cursor="pointer"
     >
-      <Text fontWeight="bold">> {formatDate(date)}</Text>
+      <Text fontWeight="bold">{formatDate(date)}</Text>
       <VStack align="start" spacing={2} mt={2} width="100%">
         {filteredActivities.map((activity) => (
           <Box key={activity.id} width="100%">
@@ -170,7 +172,7 @@ export function DateBox({
                     />
                   </Flex>
                 </Flex>
-                <Text >{activity.description}</Text>
+                <Text>{activity.description}</Text>
               </>
             )}
           </Box>
@@ -215,7 +217,6 @@ export function DateBox({
           </Button>
         </Flex>
       )}
-      
     </Box>
   );
 }
