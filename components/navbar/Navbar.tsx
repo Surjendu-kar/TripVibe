@@ -18,6 +18,7 @@ function Navbar() {
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [image, setImage] = useState(null);
   const onOpen = () => {
     setIsOpen(true);
   };
@@ -31,6 +32,7 @@ function Navbar() {
     setDestination("");
     setStartDate("");
     setEndDate("");
+    setImage(null);
   };
 
   return (
@@ -55,6 +57,8 @@ function Navbar() {
             setStartDate={setStartDate}
             endDate={endDate}
             setEndDate={setEndDate}
+            image={image}
+            setImage={setImage}
             clearForm={clearForm}
           />
           <Box mt={3}>

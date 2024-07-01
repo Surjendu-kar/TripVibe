@@ -4,7 +4,18 @@ interface Trip {
   destination: string;
   startDate: string;
   endDate: string;
-  // imageUrl?: string;
+  image?: {
+    data: string; 
+    contentType: string;
+  };
+  activities?: Activity[];
+}
+
+interface Activity {
+  formattedDate: string;
+  formattedStartTime: string;
+  formattedEndTime: string;
+  description: string;
 }
 
 const getData = async (): Promise<Trip[]> => {

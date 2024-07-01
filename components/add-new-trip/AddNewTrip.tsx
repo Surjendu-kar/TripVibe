@@ -17,6 +17,7 @@ import {
   Box,
   useToast,
 } from "@chakra-ui/react";
+import ImagePicker from "../img-picker/ImagePicker";
 
 interface AddNewTripProps {
   isOpen: boolean;
@@ -29,6 +30,8 @@ interface AddNewTripProps {
   setStartDate: (value: string) => void;
   endDate: string;
   setEndDate: (value: string) => void;
+  image: any;
+  setImage: (value: any) => void;
   clearForm: () => void;
 }
 
@@ -47,6 +50,7 @@ function AddNewTrip({
 }: AddNewTripProps) {
   const [minDate, setMinDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState(null);
   const toast = useToast();
 
   useEffect(() => {
@@ -76,6 +80,12 @@ function AddNewTrip({
       destination,
       startDate,
       endDate,
+      image: image
+        ? {
+            data: image.data,
+            contentType: image.contentType,
+          }
+        : null,
     };
 
     try {
@@ -133,6 +143,7 @@ function AddNewTrip({
         <ModalCloseButton />
         <ModalBody pb={6}>
           <VStack spacing={4} align="stretch">
+            <ImagePicker onImageChange={setImage} />
             <FormControl>
               <FormLabel>Trip Name</FormLabel>
               <Input

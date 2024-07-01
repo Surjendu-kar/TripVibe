@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Box, VStack, Container, Button } from "@chakra-ui/react";
+import { Box, VStack, Container, Button, useToast } from "@chakra-ui/react";
 import { notFound } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import getData from "@/lib/fetchData";
@@ -15,6 +15,10 @@ interface Trip {
   destination: string;
   startDate: string;
   endDate: string;
+  image?: {
+    data: string;
+    contentType: string;
+  };
 }
 
 interface Activity {
@@ -29,6 +33,8 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [trip, setTrip] = useState<Trip | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     (async () => {
@@ -43,6 +49,14 @@ export default function Page({ params }: { params: { slug: string } }) {
       }
     })();
   }, [params.slug]);
+
+  useEffect(() => {
+    if (trip && trip.image && trip.image.data) {
+      const img = new Image();
+      img.onload = () => setIsImageLoaded(true);
+      img.src = `data:${trip.image.contentType};base64,${trip.image.data}`;
+    }
+  }, [trip]);
 
   if (!trip) return null;
 
@@ -86,46 +100,75 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   const handleSaveAllActivities = async () => {
     if (!trip) return;
-    console.log(
-      "Activities to be saved:",
-      activities.map((activity) => ({
-        ...activity,
-        formattedDate: new Date(activity.date).toLocaleDateString(),
-        formattedStartTime: formatTime(activity.startTime),
-        formattedEndTime: formatTime(activity.endTime),
-      }))
-    );
-    // try {
-    //   const response = await fetch("../../api/v2/hello/route", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       tripId: trip._id,
-    //       activities,
-    //     }),
-    //   });
 
-    //   if (response.ok) {
-    //     alert("All activities saved successfully!");
-    //   } else {
-    //     throw new Error("Failed to save activities");
-    //   }
-    // } catch (error) {
-    //   console.error("Error saving activities:", error);
-    //   alert("Failed to save activities. Please try again.");
-    // }
+    const formattedActivities = activities.map((activity) => ({
+      formattedDate: new Date(activity.date).toLocaleDateString(),
+      formattedStartTime: formatTime(activity.startTime),
+      formattedEndTime: formatTime(activity.endTime),
+      description: activity.description,
+    }));
+
+    console.log("Activities to be saved:", formattedActivities);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/v2/hello", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: trip._id,
+          activities: formattedActivities,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save activities");
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "Success",
+          description: "All activities saved successfully!",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        throw new Error(result.error || "Failed to save activities");
+      }
+    } catch (error) {
+      console.error("Error saving activities:", error);
+      toast({
+        title: "Error",
+        description: "Failed to save activities. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
     <VStack spacing={0} align="stretch">
-      <Box
-        height="40vh"
-        backgroundImage="url('https://upload.wikimedia.org/wikipedia/commons/6/6e/Shri_Jagannatha_Temple.jpg')"
-        backgroundSize="cover"
-        backgroundPosition="center"
-      />
+      <Box height="40vh" position="relative" overflow="hidden">
+        {trip.image && trip.image.data && (
+          <img
+            src={`data:${trip.image.contentType};base64,${trip.image.data}`}
+            alt="Trip"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          />
+        )}
+      </Box>
       <Container position="relative" maxWidth="container.xl" height="full">
         <TripHeader
           tripName={trip.tripName}

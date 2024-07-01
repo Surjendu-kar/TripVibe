@@ -48,8 +48,6 @@ export function DateBox({
   isSelected,
   onDateClick,
   onAddActivity,
-  onEditActivity,
-  onDeleteActivity,
 }: DateBoxProps) {
   const [newActivity, setNewActivity] = useState<Omit<Activity, "id" | "date">>(
     {
@@ -58,38 +56,22 @@ export function DateBox({
       description: "",
     }
   );
-  const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (editingActivity) {
-      setEditingActivity({ ...editingActivity, [name]: value });
-    } else {
-      setNewActivity((prev) => ({ ...prev, [name]: value }));
-    }
+    setNewActivity((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (editingActivity) {
-      onEditActivity(editingActivity);
-      setEditingActivity(null);
-    } else if (
+    if (
       newActivity.startTime &&
       newActivity.endTime &&
       newActivity.description
     ) {
-      onAddActivity({ ...newActivity, date }); // Ensure date is passed
+      onAddActivity({ ...newActivity, date });
       setNewActivity({ startTime: "", endTime: "", description: "" });
     }
-  };
-
-  const handleEdit = (activity: Activity) => {
-    setEditingActivity(activity);
-  };
-
-  const handleDelete = (activityId: string) => {
-    onDeleteActivity(activityId);
   };
 
   const handleInputClick = (e: React.MouseEvent) => {
@@ -112,73 +94,14 @@ export function DateBox({
       <VStack align="start" spacing={2} mt={2} width="100%">
         {filteredActivities.map((activity) => (
           <Box key={activity.id} width="100%">
-            {editingActivity && editingActivity.id === activity.id ? (
-              <Flex direction="column" width="100%">
-                <Flex mb={2} width="100%" justify="space-between">
-                  <Flex>
-                    <Input
-                      name="startTime"
-                      value={editingActivity.startTime}
-                      onChange={handleInputChange}
-                      type="time"
-                      mr={2}
-                      width="auto"
-                    />
-                    <Input
-                      name="endTime"
-                      value={editingActivity.endTime}
-                      onChange={handleInputChange}
-                      type="time"
-                      width="auto"
-                    />
-                  </Flex>
-                  <Button onClick={handleSubmit} size="sm">
-                    Save
-                  </Button>
-                </Flex>
-                <Input
-                  name="description"
-                  value={editingActivity.description}
-                  onChange={handleInputChange}
-                  mb={2}
-                />
-              </Flex>
-            ) : (
-              <>
-                <Flex justify="space-between" align="center" width="100%">
-                  <Text>
-                    {formatTime(activity.startTime)} -{" "}
-                    {formatTime(activity.endTime)}
-                  </Text>
-                  <Flex>
-                    <IconButton
-                      aria-label="Edit activity"
-                      icon={<EditIcon />}
-                      size="sm"
-                      mr={2}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEdit(activity);
-                      }}
-                    />
-                    <IconButton
-                      aria-label="Delete activity"
-                      icon={<DeleteIcon />}
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(activity.id);
-                      }}
-                    />
-                  </Flex>
-                </Flex>
-                <Text>{activity.description}</Text>
-              </>
-            )}
+            <Text>
+              {formatTime(activity.startTime)} - {formatTime(activity.endTime)}
+            </Text>
+            <Text>{activity.description}</Text>
           </Box>
         ))}
       </VStack>
-      {isSelected && !editingActivity && (
+      {isSelected && (
         <Flex mt={2} onClick={handleInputClick} flexDirection="column">
           <Flex mb={2}>
             <Box mr={2}>

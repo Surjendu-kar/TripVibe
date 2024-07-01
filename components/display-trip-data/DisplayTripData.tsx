@@ -20,7 +20,10 @@ interface Trip {
   destination: string;
   startDate: string;
   endDate: string;
-  // imageUrl?: string;
+  image?: {
+    data: string;
+    contentType: string;
+  };
 }
 
 const DisplayTripData: React.FC = () => {
@@ -54,12 +57,19 @@ const DisplayTripData: React.FC = () => {
           variant="outline"
           mb={4}
         >
-          {/* <Image
+          <Image
             objectFit="cover"
             maxW={{ base: "100%", sm: "200px" }}
-            src={trip.imageUrl || "https://via.placeholder.com/150"}
+            src={
+              trip.image && trip.image.data
+                ? `data:${trip.image.contentType};base64,${trip.image.data}`
+                : "https://via.placeholder.com/150"
+            }
             alt="Trip Destination"
-          /> */}
+            onError={(e) => {
+              e.currentTarget.src = "https://via.placeholder.com/150";
+            }}
+          />
           <Stack>
             <CardBody>
               <Heading size="md">{trip.tripName}</Heading>
