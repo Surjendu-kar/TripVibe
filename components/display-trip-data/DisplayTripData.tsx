@@ -24,7 +24,7 @@ interface Trip {
   };
 }
 
-async function fetchTrips() {
+export async function fetchTrips() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v2/hello`,
     {

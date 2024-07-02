@@ -7,6 +7,7 @@ import { TripHeader } from "@/components/homepage/header/TripHeader";
 import "react-datepicker/dist/react-datepicker.css";
 import { TripImage } from "@/components/view-details/TripImage";
 import { ActivityList } from "@/components/view-details/ActivityList";
+import getData from "@/lib/fetchData";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [trip, setTrip] = useState<Trip | null>(null);
