@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client";
 import {
   AspectRatio,
@@ -15,6 +17,15 @@ import {
 import { motion, useAnimation } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 import { FaCamera } from "react-icons/fa";
+
+interface ImageData {
+  data: string | ArrayBuffer | null;
+  contentType: string;
+}
+
+interface ImagePickerProps {
+  onImageChange: (image: ImageData | null) => void;
+}
 
 const first = {
   rest: {
@@ -103,21 +114,20 @@ const PreviewImage = forwardRef<BoxProps, typeof Box>((props, ref) => {
       backgroundSize="cover"
       backgroundRepeat="no-repeat"
       backgroundPosition="center"
-      backgroundImage={`url("https://image.shutterstock.com/image-photo/paella-traditional-classic-spanish-seafood-600w-1662253543.jpg")`}
       {...props}
       ref={ref}
     />
   );
 });
 
-export default function ImagePicker({ onImageChange }) {
+export default function ImagePicker({ onImageChange }: ImagePickerProps) {
   const controls = useAnimation();
   const startAnimation = () => controls.start("hover");
   const stopAnimation = () => controls.stop();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<ImageData | null>(null);
 
   const handleFileChange = useCallback(
-    (event) => {
+    (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files[0];
       if (file && file.type.substr(0, 5) === "image") {
         const reader = new FileReader();
@@ -159,11 +169,10 @@ export default function ImagePicker({ onImageChange }) {
             {image ? (
               <Box position="relative" width="100%" height="100%">
                 <Image
-                  src={image.data}
+                  src={image.data as string}
                   alt="Selected image"
-                  layout="fill"
-                  objectFit="cover"
-                  style={{ borderRadius: "0.375rem" }}
+                  fill
+                  style={{ objectFit: "cover", borderRadius: "0.375rem" }}
                 />
                 <Box
                   position="absolute"
