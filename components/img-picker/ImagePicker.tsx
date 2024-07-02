@@ -18,11 +18,6 @@ import { motion, useAnimation } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
 import { FaCamera } from "react-icons/fa";
 
-interface ImageData {
-  data: string | ArrayBuffer | null;
-  contentType: string;
-}
-
 interface ImagePickerProps {
   onImageChange: (image: ImageData | null) => void;
 }

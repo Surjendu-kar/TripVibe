@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 "use client";
 import { useEffect, useState } from "react";
 import {
@@ -54,7 +52,6 @@ function AddNewTrip({
 }: AddNewTripProps) {
   const [minDate, setMinDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [image, setImage] = useState(null);
   const toast = useToast();
 
   useEffect(() => {

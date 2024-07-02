@@ -18,3 +18,8 @@ interface Activity {
   formattedEndTime: string;
   description: string;
 }
+
+interface ImageData {
+  data: string | ArrayBuffer | null;
+  contentType: string;
+}

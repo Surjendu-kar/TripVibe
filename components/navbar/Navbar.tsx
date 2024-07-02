@@ -11,11 +11,6 @@ import {
 } from "@chakra-ui/react";
 import AddNewTrip from "../add-new-trip/AddNewTrip";
 
-interface ImageData {
-  data: string;
-  contentType: string;
-}
-
 function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [tripName, setTripName] = useState("");
@@ -23,6 +18,7 @@ function Navbar() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [image, setImage] = useState<ImageData | null>(null);
+
   const onOpen = () => {
     setIsOpen(true);
   };
