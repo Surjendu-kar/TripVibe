@@ -10,7 +10,6 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import AddNewTrip from "../add-new-trip/AddNewTrip";
-import DisplayTripData from "../display-trip-data/DisplayTripData";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -61,9 +60,6 @@ function Navbar() {
             setImage={setImage}
             clearForm={clearForm}
           />
-          <Box mt={3}>
-            <DisplayTripData />
-          </Box>
         </TabPanel>
         <TabPanel>
           <p>two!</p>

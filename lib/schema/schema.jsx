@@ -16,7 +16,7 @@ const dbSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String
   },
-  activities: [activitySchema] // Add this line to include activities
+  activities: [activitySchema] 
 });
 
 const userSchema = mongoose.models.users || mongoose.model("users", dbSchema);

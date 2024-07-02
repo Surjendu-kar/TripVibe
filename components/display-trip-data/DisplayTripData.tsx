@@ -10,9 +10,7 @@ import {
   Button,
   Spinner,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import getData from "@/lib/fetchData";
 
 interface Trip {
   _id: string;
@@ -26,30 +24,40 @@ interface Trip {
   };
 }
 
-const DisplayTripData: React.FC = () => {
-  const [trips, setTrips] = useState<Trip[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-    (async () => {
-      const fetchedTrips = await getData();
-      setTrips(fetchedTrips);
-      setIsLoading(false);
-    })();
-  }, []);
-
-  if (isLoading) {
-    return <Spinner size="xl" />;
+async function fetchTrips() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v2/hello`,
+    {
+      cache: "no-store",
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
   }
+  return res.json();
+}
 
-  if (trips.length === 0) {
+const DisplayTripData = async () => {
+  const trips: { result: Trip[] } = await fetchTrips();
+
+  if (!trips.result.length) {
     return <Box>No trips available</Box>;
   }
 
+  // const [trips, setTrips] = useState<Trip[]>([]);
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   (async () => {
+  //     const fetchedTrips = await getData();
+  //     setTrips(fetchedTrips);
+  //     setIsLoading(false);
+  //   })();
+  // }, []);
+
   return (
     <Box>
-      {trips.map((trip) => (
+      {trips.result.map((trip) => (
         <Card
           key={trip._id}
           direction={{ base: "column", sm: "row" }}
@@ -66,9 +74,9 @@ const DisplayTripData: React.FC = () => {
                 : "https://via.placeholder.com/150"
             }
             alt="Trip Destination"
-            onError={(e) => {
-              e.currentTarget.src = "https://via.placeholder.com/150";
-            }}
+            // onError={(e) => {
+            //   e.currentTarget.src = "https://via.placeholder.com/150";
+            // }}
           />
           <Stack>
             <CardBody>
