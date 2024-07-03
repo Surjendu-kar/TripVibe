@@ -15,6 +15,19 @@ interface FetchedActivitiesProps {
   onDeleteActivity: (activityId: string) => void;
 }
 
+interface Activity {
+  _id: string;
+  formattedDate: string;
+  formattedStartTime: string;
+  formattedEndTime: string;
+  title: string;
+  notes: string;
+}
+
+interface GroupedActivities {
+  [date: string]: Activity[];
+}
+
 function formatDate(dateString: string): string {
   const [month, day, year] = dateString.split('/');
   return `${day}/${month}/${year}`;
@@ -40,14 +53,14 @@ export function FetchedActivities({
     });
   };
 
-  const groupedActivities = activities.reduce((acc, activity) => {
+  const groupedActivities: GroupedActivities = activities.reduce((acc, activity) => {
     const date = activity.formattedDate;
     if (!acc[date]) {
       acc[date] = [];
     }
     acc[date].push(activity);
     return acc;
-  }, {});
+  }, {} as GroupedActivities);
 
   const sortedDates = Object.keys(groupedActivities).sort((a, b) => 
     new Date(a).getTime() - new Date(b).getTime()
@@ -79,7 +92,6 @@ export function FetchedActivities({
                       aria-label="Delete activity"
                       icon={<DeleteIcon />}
                       size="sm"
-                      
                       onClick={() => handleDelete(activity._id)}
                     />
                   </Flex>
