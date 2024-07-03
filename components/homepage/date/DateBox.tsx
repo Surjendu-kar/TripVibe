@@ -103,7 +103,7 @@ export function DateBox({
 
   return (
     <Box
-      p={4}
+      p={6}
       borderWidth={1}
       borderRadius="md"
       onClick={onDateClick}

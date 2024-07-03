@@ -76,7 +76,7 @@ export function FetchedActivities({
               {groupedActivities[date].map((activity) => (
                 <Box
                   key={activity._id}
-                  p={4}
+                  p={7}
                   borderWidth={1}
                   borderRadius="md"
                   boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
