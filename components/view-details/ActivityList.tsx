@@ -1,7 +1,8 @@
-import { VStack } from "@chakra-ui/react";
+import { VStack, Box, Icon, Text } from "@chakra-ui/react";
 import { DateBox } from "@/components/homepage/date/DateBox";
 import { v4 as uuid } from "uuid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { AddIcon } from "@chakra-ui/icons";
 
 interface ActivityListProps {
   activities: Activity[];
@@ -21,8 +22,6 @@ export const ActivityList: React.FC<ActivityListProps> = ({
   };
 
   const handleAddActivity = (newActivity: Omit<Activity, "_id">) => {
-    // console.log(newActivity);
-
     const activityWithId = {
       ...newActivity,
       _id: uuid(),
@@ -45,16 +44,32 @@ export const ActivityList: React.FC<ActivityListProps> = ({
   return (
     <VStack mt={activities.length === 0 ? 40 : 10} spacing={4} align="stretch">
       {tripDates.map((date) => (
-        <DateBox
-          key={date}
-          date={date}
-          activities={activities}
-          isSelected={selectedDate === date}
-          onDateClick={() => handleDateClick(date)}
-          onAddActivity={handleAddActivity}
-          onEditActivity={handleEditActivity}
-          onDeleteActivity={handleDeleteActivity}
-        />
+        <Box key={date} position="relative">
+          <DateBox
+            date={date}
+            activities={activities}
+            isSelected={selectedDate === date}
+            onDateClick={() => handleDateClick(date)}
+            onAddActivity={handleAddActivity}
+            onEditActivity={handleEditActivity}
+            onDeleteActivity={handleDeleteActivity}
+          />
+          {selectedDate !== date && (
+            <Box
+              position="absolute"
+              top="50%"
+              right="-40px"
+              transform="translateY(-50%)"
+              cursor="pointer"
+              onClick={() => handleDateClick(date)}
+            >
+              <Icon as={AddIcon} w={6} h={6} color="black.500" />
+              {/* <Text fontSize="sm" color="black.500">
+                Add
+              </Text> */}
+            </Box>
+          )}
+        </Box>
       ))}
     </VStack>
   );

@@ -13,14 +13,6 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { formatDate } from "../utils";
 import { useEffect, useState } from "react";
 
-interface Activity {
-  _id: string;
-  formattedDate: string;
-  formattedStartTime: string;
-  formattedEndTime: string;
-  description: string;
-}
-
 interface DateBoxProps {
   date: string;
   activities: Activity[];
@@ -55,7 +47,8 @@ export function DateBox({
   const [newActivity, setNewActivity] = useState({
     formattedStartTime: "",
     formattedEndTime: "",
-    description: "",
+    title: "",
+    notes: "",
   });
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
 
@@ -76,13 +69,14 @@ export function DateBox({
     } else if (
       newActivity.formattedStartTime &&
       newActivity.formattedEndTime &&
-      newActivity.description
+      newActivity.title
     ) {
       onAddActivity({ ...newActivity, formattedDate: date });
       setNewActivity({
         formattedStartTime: "",
         formattedEndTime: "",
-        description: "",
+        title: "",
+        notes: "",
       });
     }
   };
@@ -123,7 +117,9 @@ export function DateBox({
               {formatTime(activity.formattedStartTime)} -{" "}
               {formatTime(activity.formattedEndTime)}
             </Text>
-            <Text>{activity.description}</Text>
+            <Text fontWeight="bold">{activity.title}</Text>
+            <Text>{activity.notes}</Text>
+
             <Flex position="absolute" top={0} right={0}>
               <IconButton
                 aria-label="Edit activity"
@@ -179,13 +175,23 @@ export function DateBox({
             </Box>
           </Flex>
           <Box mb={2}>
-            <FormLabel htmlFor="description">Activity</FormLabel>
+            <FormLabel htmlFor="title">Title</FormLabel>
             <Input
-              id="description"
-              name="description"
-              value={editingActivity?.description || newActivity.description}
+              id="title"
+              name="title"
+              value={editingActivity?.title || newActivity.title}
               onChange={handleInputChange}
-              placeholder="Add an activity"
+              placeholder="Add a title"
+            />
+          </Box>
+          <Box mb={2}>
+            <FormLabel htmlFor="notes">Notes</FormLabel>
+            <Input
+              id="notes"
+              name="notes"
+              value={editingActivity?.notes || newActivity.notes}
+              onChange={handleInputChange}
+              placeholder="Add notes"
             />
           </Box>
           <Flex justifyContent="flex-end">

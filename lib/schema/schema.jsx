@@ -4,7 +4,8 @@ const activitySchema = new mongoose.Schema({
   formattedDate: String,
   formattedStartTime: String,
   formattedEndTime: String,
-  description: String
+  title: String,
+  notes: String,
 });
 
 const dbSchema = new mongoose.Schema({
@@ -14,9 +15,9 @@ const dbSchema = new mongoose.Schema({
   endDate: String,
   image: {
     data: Buffer,
-    contentType: String
+    contentType: String,
   },
-  activities: [activitySchema] 
+  activities: [activitySchema],
 });
 
 const userSchema = mongoose.models.users || mongoose.model("users", dbSchema);

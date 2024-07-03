@@ -16,7 +16,8 @@ interface Activity {
   formattedDate: string;
   formattedStartTime: string;
   formattedEndTime: string;
-  description: string;
+  title: string;
+  notes: string;
 }
 
 interface ImageData {

@@ -56,7 +56,8 @@ export default function Page({ params }: { params: { slug: string } }) {
       formattedDate: new Date(activity.formattedDate).toLocaleDateString(),
       formattedStartTime: formatTime(activity.formattedStartTime),
       formattedEndTime: formatTime(activity.formattedEndTime),
-      description: activity.description,
+      title: activity.title,
+      notes: activity.notes,
     }));
 
     console.log("Activities to be saved:", formattedActivities);
