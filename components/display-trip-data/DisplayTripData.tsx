@@ -44,17 +44,6 @@ const DisplayTripData = async () => {
     return <Box>No trips available</Box>;
   }
 
-  // const [trips, setTrips] = useState<Trip[]>([]);
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   (async () => {
-  //     const fetchedTrips = await getData();
-  //     setTrips(fetchedTrips);
-  //     setIsLoading(false);
-  //   })();
-  // }, []);
-
   return (
     <Box>
       {trips.result.map((trip) => (

@@ -43,7 +43,7 @@ export const ActivityList: React.FC<ActivityListProps> = ({
   };
 
   return (
-    <VStack mt={40} spacing={4} align="stretch">
+    <VStack mt={activities.length === 0 ? 40 : 10} spacing={4} align="stretch">
       {tripDates.map((date) => (
         <DateBox
           key={date}

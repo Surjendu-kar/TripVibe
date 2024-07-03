@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { TripImage } from "@/components/view-details/TripImage";
 import { ActivityList } from "@/components/view-details/ActivityList";
 import getData from "@/lib/fetchData";
+import { FetchedActivities } from "@/components/view-details/FetchedActivities";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [trip, setTrip] = useState<Trip | null>(null);
@@ -101,6 +102,55 @@ export default function Page({ params }: { params: { slug: string } }) {
     }
   };
 
+  const handleDeleteFetchedActivity = async (activityId: string) => {
+    if (!trip) return;
+
+    try {
+      const response = await fetch("/api/v2/hello", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: trip._id,
+          activityId: activityId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete activity");
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Update local state
+        setTrip((prevTrip) => ({
+          ...prevTrip!,
+          activities:
+            prevTrip!.activities?.filter(
+              (activity) => activity._id !== activityId
+            ) ?? [],
+        }));
+
+        setActivities((prevActivities) =>
+          prevActivities.filter((activity) => activity._id !== activityId)
+        );
+      } else {
+        throw new Error(result.error || "Failed to delete activity");
+      }
+    } catch (error) {
+      console.error("Error deleting activity:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete activity. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <VStack spacing={0} align="stretch">
       <TripImage image={trip.image} />
@@ -109,6 +159,11 @@ export default function Page({ params }: { params: { slug: string } }) {
           tripName={trip.tripName}
           startDate={trip.startDate}
           endDate={trip.endDate}
+        />
+
+        <FetchedActivities
+          activities={trip.activities ?? []}
+          onDeleteActivity={handleDeleteFetchedActivity}
         />
         <ActivityList
           activities={activities}

@@ -92,3 +92,36 @@ export async function PUT(request) {
     );
   }
 }
+
+export async function DELETE(request) {
+  const payload = await request.json();
+  await dbConnect();
+  try {
+    const { _id, activityId } = payload;
+
+    const updatedUser = await userSchema.findByIdAndUpdate(
+      _id,
+      { $pull: { activities: { _id: activityId } } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { error: "User or activity not found", success: false },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ data: updatedUser, success: true });
+  } catch (error) {
+    console.error("Error deleting activity:", error);
+    return NextResponse.json(
+      {
+        error: "An error occurred while deleting the activity",
+        errorDetails: error.message,
+        success: false,
+      },
+      { status: 500 }
+    );
+  }
+}
