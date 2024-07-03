@@ -8,7 +8,6 @@ import {
   Stack,
   Text,
   Button,
-  Spinner,
 } from "@chakra-ui/react";
 import Link from "next/link";
 
@@ -53,6 +52,9 @@ const DisplayTripData = async () => {
           overflow="hidden"
           variant="outline"
           mb={4}
+          boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+          borderWidth="1px"
+          borderRadius="lg"
         >
           <Image
             objectFit="cover"
@@ -63,9 +65,6 @@ const DisplayTripData = async () => {
                 : "https://via.placeholder.com/150"
             }
             alt="Trip Destination"
-            // onError={(e) => {
-            //   e.currentTarget.src = "https://via.placeholder.com/150";
-            // }}
           />
           <Stack>
             <CardBody>

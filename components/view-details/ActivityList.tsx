@@ -1,4 +1,4 @@
-import { VStack, Box, Icon, Text } from "@chakra-ui/react";
+import { VStack, Box, Icon, Text, Heading } from "@chakra-ui/react";
 import { DateBox } from "@/components/homepage/date/DateBox";
 import { v4 as uuid } from "uuid";
 import { useState } from "react";
@@ -42,9 +42,16 @@ export const ActivityList: React.FC<ActivityListProps> = ({
   };
 
   return (
-    <VStack mt={activities.length === 0 ? 40 : 10} spacing={4} align="stretch">
+    <VStack mt={40} spacing={4} align="stretch">
+      <Heading size={"lg"} ml={2} mb={2}>
+        Add Activity
+      </Heading>
       {tripDates.map((date) => (
-        <Box key={date} position="relative">
+        <Box
+          key={date}
+          position="relative"
+          boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+        >
           <DateBox
             date={date}
             activities={activities}

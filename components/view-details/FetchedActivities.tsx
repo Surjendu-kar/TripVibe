@@ -15,21 +15,12 @@ interface FetchedActivitiesProps {
   onDeleteActivity: (activityId: string) => void;
 }
 
-interface Activity {
-  _id: string;
-  formattedDate: string;
-  formattedStartTime: string;
-  formattedEndTime: string;
-  title: string;
-  notes: string;
-}
-
 interface GroupedActivities {
   [date: string]: Activity[];
 }
 
 function formatDate(dateString: string): string {
-  const [month, day, year] = dateString.split('/');
+  const [month, day, year] = dateString.split("/");
   return `${day}/${month}/${year}`;
 }
 
@@ -53,34 +44,52 @@ export function FetchedActivities({
     });
   };
 
-  const groupedActivities: GroupedActivities = activities.reduce((acc, activity) => {
-    const date = activity.formattedDate;
-    if (!acc[date]) {
-      acc[date] = [];
-    }
-    acc[date].push(activity);
-    return acc;
-  }, {} as GroupedActivities);
+  const groupedActivities: GroupedActivities = activities.reduce(
+    (acc, activity) => {
+      const date = activity.formattedDate;
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(activity);
+      return acc;
+    },
+    {} as GroupedActivities
+  );
 
-  const sortedDates = Object.keys(groupedActivities).sort((a, b) => 
-    new Date(a).getTime() - new Date(b).getTime()
+  const sortedDates = Object.keys(groupedActivities).sort(
+    (a, b) => new Date(a).getTime() - new Date(b).getTime()
   );
 
   return (
     <Box mt={40} mb={4}>
       <VStack align="stretch" spacing={6}>
         {sortedDates.map((date, index) => (
-          <Box key={date}>
+          <Box key={date} mt={10}>
             <Heading size="lg" mb={4}>
-              Day {index + 1} [ {formatDate(date)} ]
+              Day {index + 1}
+              {"  "}
+              <Text as="span" fontSize="md" color="gray.500">
+                [ {formatDate(date)} ]
+              </Text>
             </Heading>
             <VStack align="stretch" spacing={4}>
               {groupedActivities[date].map((activity) => (
-                <Box key={activity._id} p={4} borderWidth={1} borderRadius="md">
+                <Box
+                  key={activity._id}
+                  p={4}
+                  borderWidth={1}
+                  borderRadius="md"
+                  boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+                >
                   <Flex justifyContent="space-between" alignItems="flex-start">
                     <Box>
                       <Flex alignItems="center" mb={2}>
-                        <Box as={FaMapMarkerAlt} size="20px" color="gray.500" mr={2} />
+                        <Box
+                          as={FaMapMarkerAlt}
+                          size="20px"
+                          color="gray.500"
+                          mr={2}
+                        />
                         <Heading size="md">{activity.title}</Heading>
                       </Flex>
                       <Text ml={7}>{activity.notes}</Text>
