@@ -1,72 +1,43 @@
 "use client";
-import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
-import AddNewTrip from "../add-new-trip/AddNewTrip";
+import { Box, Flex, Link as ChakraLink, Spacer } from "@chakra-ui/react";
+import Link from "next/link";
+import Image from "next/image";
+import TripIcon from "@/public/tripIcon.png";
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [tripName, setTripName] = useState("");
-  const [destination, setDestination] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [image, setImage] = useState<ImageData | null>(null);
-
-  const onOpen = () => {
-    setIsOpen(true);
-  };
-
-  const onClose = () => {
-    setIsOpen(false);
-  };
-
-  const clearForm = () => {
-    setTripName("");
-    setDestination("");
-    setStartDate("");
-    setEndDate("");
-    setImage(null);
-  };
-
   return (
-    <Tabs size="md" variant="enclosed">
-      <TabList>
-        <Tab>Upcoming Trips</Tab>
-        <Tab>Past Trips</Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel>
-          <Button onClick={onOpen} type="button">
-            Add a Trip
-          </Button>
-          <AddNewTrip
-            isOpen={isOpen}
-            onClose={onClose}
-            tripName={tripName}
-            setTripName={setTripName}
-            destination={destination}
-            setDestination={setDestination}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            image={image}
-            setImage={setImage}
-            clearForm={clearForm}
-          />
-        </TabPanel>
-        <TabPanel>
-          <p>two!</p>
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+    <Flex
+      as="nav"
+      align="center"
+      justify="space-around"
+      wrap="wrap"
+      padding="1rem 0"
+      bg="#373A40"
+      color="white"
+    >
+      <Flex align="center" mr={5}>
+        <Link href="/">
+          <Box borderRadius="md" overflow="hidden">
+            <Image
+              src={TripIcon}
+              alt="Logo"
+              width={50}
+              height={50}
+              style={{ borderRadius: "50%" }}
+            />
+          </Box>
+        </Link>
+      </Flex>
+
+      <Flex>
+        <Link href="/" passHref>
+          <ChakraLink mr={4}>Home</ChakraLink>
+        </Link>
+        <Link href="/support" passHref>
+          <ChakraLink>Support</ChakraLink>
+        </Link>
+      </Flex>
+    </Flex>
   );
 }
 
