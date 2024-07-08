@@ -9,6 +9,7 @@ import { TripImage } from "@/components/view-details/TripImage";
 import { ActivityList } from "@/components/view-details/ActivityList";
 import getData from "@/lib/fetchData";
 import { FetchedActivities } from "@/components/view-details/FetchedActivities";
+import { ActivityReminder } from "@/components/activity-reminder/ActivityReminder";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [trip, setTrip] = useState<Trip | null>(null);
@@ -181,6 +182,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         >
           Save All Activities
         </Button>
+        <ActivityReminder activities={activities} />
       </Container>
     </VStack>
   );

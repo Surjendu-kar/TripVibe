@@ -7,6 +7,7 @@ export async function GET() {
   try {
     const data = await userSchema.find();
 
+
     // Convert image data to base64 string
     const formattedData = data.map((item) => ({
       ...item.toObject(),

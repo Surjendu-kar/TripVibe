@@ -105,7 +105,6 @@ export function DateBox({
     <Box
       p={6}
       borderWidth={1}
-      borderRadius="md"
       onClick={onDateClick}
       cursor="pointer"
     >

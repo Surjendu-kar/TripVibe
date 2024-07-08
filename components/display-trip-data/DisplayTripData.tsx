@@ -43,6 +43,8 @@ const DisplayTripData = async () => {
     return <Box>No trips available</Box>;
   }
 
+  // console.log(trips);
+
   return (
     <Box>
       {trips.result.map((trip) => (
