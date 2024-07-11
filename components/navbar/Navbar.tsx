@@ -29,14 +29,14 @@ function Navbar() {
         </Link>
       </Flex>
 
-      <Flex>
+      {/* <Flex>
         <Link href="/" passHref>
           <ChakraLink mr={4}>Home</ChakraLink>
-        </Link>
-        <Link href="/support" passHref>
-          <ChakraLink>Support</ChakraLink>
-        </Link>
-      </Flex>
+        </Link> */}
+      <Link href="/support" passHref>
+        <ChakraLink>Support</ChakraLink>
+      </Link>
+      {/* </Flex> */}
     </Flex>
   );
 }

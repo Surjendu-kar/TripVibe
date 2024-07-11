@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 
 const AddNewTrip = dynamic(() => import("../add-new-trip/AddNewTrip"), {
@@ -27,7 +27,7 @@ function AddTripBtn() {
   };
 
   return (
-    <>
+    <Box style={{ display: "flex", justifyContent: "center" }}>
       <Button onClick={onOpen} type="button">
         Add a Trip
       </Button>
@@ -48,7 +48,7 @@ function AddTripBtn() {
           clearForm={clearForm}
         />
       )}
-    </>
+    </Box>
   );
 }
 

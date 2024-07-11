@@ -10,7 +10,7 @@ function Support() {
       <Box mt={3} p={4}>
         <Heading>Support</Heading>
         <Text mt={4}>
-          This is the support page. Add your support content here.
+          This is the support page.....
         </Text>
       </Box>
     </Box>

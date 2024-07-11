@@ -44,7 +44,7 @@ const DisplayTripData = async () => {
   }
 
   return (
-    <Box>
+    <Box display={"flex"} flexWrap={"wrap"} gap={3}>
       {trips.result.map((trip) => (
         <Card
           key={trip._id}
@@ -55,6 +55,7 @@ const DisplayTripData = async () => {
           boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
           borderWidth="1px"
           borderRadius="lg"
+          style={{ width: "50%" }}
         >
           <Image
             objectFit="cover"

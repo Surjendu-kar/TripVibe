@@ -107,15 +107,16 @@ function AddNewTrip({
           duration: 3000,
           isClosable: true,
         });
+        // revalidatePath("/");
         clearForm();
         onClose();
       } else {
-        throw new Error("Failed to add trip");
+        throw new Error(result.message || "Failed to add trip");
       }
     } catch (error) {
       toast({
         title: "Error adding trip",
-        description: "Please try again later",
+        description: error.message || "Please try again later",
         status: "error",
         duration: 3000,
         isClosable: true,
