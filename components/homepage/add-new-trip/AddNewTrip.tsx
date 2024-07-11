@@ -111,12 +111,12 @@ function AddNewTrip({
         clearForm();
         onClose();
       } else {
-        throw new Error(result.message || "Failed to add trip");
+        throw new Error("Failed to add trip");
       }
     } catch (error) {
       toast({
         title: "Error adding trip",
-        description: error.message || "Please try again later",
+        description: "Please try again later",
         status: "error",
         duration: 3000,
         isClosable: true,
