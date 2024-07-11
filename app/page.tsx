@@ -19,7 +19,7 @@ function Page() {
       <Navbar />
       <Box mt={3}>
         <AddTripBtn />
-        <Box mt={4} display={"flex"} justifyContent={"center"}>
+        <Box mt={4}>
           <DisplayTripData />
         </Box>
       </Box>
